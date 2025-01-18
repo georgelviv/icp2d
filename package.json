@@ -1,0 +1,41 @@
+{
+  "name": "icp2d",
+  "version": "0.0.1",
+  "description": "Iterative Closest Point (ICP) on 2D points",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "type": "module",
+  "scripts": {
+    "build:esm": "tsc --module es2022 --outDir dist/esm/ && echo '{\"type\": \"module\"}' > dist/esm/package.json",
+    "build:cjs": "tsc --module commonjs --target ES2017 --outDir dist/cjs/ && echo '{\"type\": \"commonjs\"}' > dist/cjs/package.json",
+    "build": "npm run build:esm && npm run build:cjs"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/georgelviv/icp2d.git"
+  },
+  "keywords": [
+    "icp",
+    "slam",
+    "lidar"
+  ],
+  "author": "Yurii Shkoropad",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/georgelviv/icp2d/issues"
+  },
+  "homepage": "https://github.com/georgelviv/icp2d#readme",
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "typescript": "^5.7.3"
+  }
+}
