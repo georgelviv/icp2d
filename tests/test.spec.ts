@@ -17,8 +17,15 @@ beforeAll(async () => {
 
 describe('nearestNeighbors', () => {
   it('should calculate nearest neighbors properly', async () => {
-    // nearestNeighbors()
-    expect(fs).toBeDefined();
+    const {res} = nearestNeighbors(basePoints, transomedPoints);
+    expect(res[0][0]).toBeCloseTo(-2.50919762);
+    expect(res[0][1]).toBeCloseTo(9.01428613);
+
+    expect(res[1][0]).toBeCloseTo(4.59212357);
+    expect(res[1][1]).toBeCloseTo(2.75114943);
+
+    expect(res[2][0]).toBeCloseTo(-6.36350066);
+    expect(res[2][1]).toBeCloseTo(-6.3319098);
   });
 });
 

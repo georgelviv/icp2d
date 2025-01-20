@@ -1,6 +1,6 @@
 import { calculateU, calculateVt } from './eigh';
 import { Matrix2d, Options, Point, Result, Vector } from './models';
-import { nearestNeighbors } from './nearest-neighbors.js';
+import { nearestNeighbors } from './nearest-neighbors';
 import { addTranslation, dot, getCentroid, getMean, matrixVectorMultiply, rotationMatrixToAngle, translate, transpose, vectorSubtract } from './utils';
 
 const defaultOptions: Options = {
