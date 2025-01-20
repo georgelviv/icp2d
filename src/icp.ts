@@ -5,7 +5,8 @@ import { addTranslation, dot, getCentroid, getMean, matrixVectorMultiply, rotati
 
 const defaultOptions: Options = {
   tolerance: 1e-6,
-  maxIterations: 500
+  maxIterations: 500,
+  verbose: false
 };
 
 export function icp(source: Point[], target: Point[], options: Partial<Options> = {}): Result {
@@ -31,19 +32,21 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
 
     const h: Matrix2d = dot(sourceCenteredTransposed, targetCentered);
 
-    const u: Matrix2d = calculateU(h)
-    const vT: Matrix2d = calculateVt(h)
+    const u: Matrix2d = calculateU(h);
+    const vT: Matrix2d = calculateVt(h);
 
-    r = dot(u, vT)
+    r = dot(u, vT);
     const transformedSource: Vector = matrixVectorMultiply(r, sourceCentroid);
     t = vectorSubtract(targetCentroid, transformedSource) as Point;
     sourceTransformed = addTranslation(dot(source, r), t) as Point[];
-    const meanError = getMean(matchedDistance)
+    const meanError = getMean(matchedDistance);
     if (Math.abs(prevError - meanError) < opts.tolerance) {
-      console.log(`Converged at iteration ${i + 1}`)
+      if (opts.verbose) {
+        console.log(`Converged at iteration ${i + 1}`);
+      }
       break;
     }
-    prevError = meanError
+    prevError = meanError;
   }
 
   return {

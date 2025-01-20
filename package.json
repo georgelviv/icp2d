@@ -9,7 +9,8 @@
     "build:esm": "tsc --module es2022 --outDir dist/esm/ && echo '{\"type\": \"module\"}' > dist/esm/package.json",
     "build:cjs": "tsc --module commonjs --target ES2017 --outDir dist/cjs/ && echo '{\"type\": \"commonjs\"}' > dist/cjs/package.json",
     "build": "npm run build:esm && npm run build:cjs",
-    "test": "jest"
+    "test": "jest",
+    "lint": "npx eslint ."
   },
   "exports": {
     ".": {
@@ -36,10 +37,15 @@
   },
   "homepage": "https://github.com/georgelviv/icp2d#readme",
   "devDependencies": {
+    "@eslint/js": "^9.18.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.7",
+    "@typescript-eslint/eslint-plugin": "^8.21.0",
+    "@typescript-eslint/parser": "^8.21.0",
+    "eslint": "^9.18.0",
+    "globals": "^15.14.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.5",
-    "typescript": "^5.7.3"
+    "typescript-eslint": "^8.21.0"
   }
 }

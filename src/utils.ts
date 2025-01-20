@@ -17,7 +17,7 @@ export function translate(points: Point[], translation: Point): Point[] {
       point[0] - translation[0],
       point[1] - translation[1]
     ];
-  })
+  });
 }
 
 export function transpose(matrix: Matrix2d): Matrix2d {
@@ -26,21 +26,21 @@ export function transpose(matrix: Matrix2d): Matrix2d {
   for (let i = 0; i < matrix[0].length; i ++) {
     const transposedRow = matrix.map((row) => {
       return row[i];
-    })      
-    transposed.push(transposedRow)
+    });      
+    transposed.push(transposedRow);
   }
   
   return transposed;
 }
 
 export function dot(a: Matrix2d, b: Matrix2d): Matrix2d {
-  const rowsA = a.length
+  const rowsA = a.length;
   const colsA = a[0].length;
   const rowsB = b.length;
   const colsB = b[0].length;
 
   if (colsA !== rowsB) {
-    throw Error('Cols A should == Rows B')
+    throw Error('Cols A should == Rows B');
   }
   
   const c = Array.from({ length: rowsA }, () => Array(colsB).fill(0));

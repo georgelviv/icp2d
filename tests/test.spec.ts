@@ -13,7 +13,7 @@ let transomedPoints: Point[];
 beforeAll(async () => {
   basePoints = await readCsvPoints(basePointsPath);
   transomedPoints = await readCsvPoints(transomedPointsPath);
-})
+});
 
 describe('nearestNeighbors', () => {
   it('should calculate nearest neighbors properly', async () => {

@@ -73,7 +73,7 @@ export function calculateU(m: Matrix2d): Matrix2d {
     .sort((a, b) => b[1] - a[1])
     .map(([index]) => index);
 
-  return selectColumns(eigenvectors, nCols)
+  return selectColumns(eigenvectors, nCols);
 }
 
 export function calculateVt(m: Matrix2d): Matrix2d {

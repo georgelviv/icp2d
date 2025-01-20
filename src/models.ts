@@ -2,6 +2,7 @@ export type Point = [x: number, y: number];
 export interface Options {
   tolerance: number;
   maxIterations: number;
+  verbose: boolean;
 };
 
 export type Matrix2d = number[][];

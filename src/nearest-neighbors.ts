@@ -15,9 +15,9 @@ class TreeNode {
 
 function euclideanDistance(a: Point, b: Point): number {
   const [x1, y1] = a;
-  const [x2, y2] = b
+  const [x2, y2] = b;
   
-  return Math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2))
+  return Math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2));
 }
 
 function closest(a: TreeNode | undefined, b: TreeNode | undefined, targetPoint: Point): TreeNode {
@@ -28,8 +28,8 @@ function closest(a: TreeNode | undefined, b: TreeNode | undefined, targetPoint: 
     return a as TreeNode;
   }
   
-  const aDistance = euclideanDistance(a.point, targetPoint)
-  const bDistance = euclideanDistance(b.point, targetPoint)
+  const aDistance = euclideanDistance(a.point, targetPoint);
+  const bDistance = euclideanDistance(b.point, targetPoint);
 
   return aDistance < bDistance ? a : b;
 }
@@ -43,7 +43,7 @@ function buildKdtree(points: Point[], isXDimension=true) {
     }
   });
 
-  const medianIndex: number = Math.ceil(sortedPoints.length / 2) - 1
+  const medianIndex: number = Math.ceil(sortedPoints.length / 2) - 1;
   const median: Point = sortedPoints[medianIndex];
   const kdtree: TreeNode = new TreeNode(median);
   const leftPoints: Point[] = sortedPoints.slice(0, medianIndex);
@@ -75,11 +75,11 @@ function nearestNeighbor(root: TreeNode | undefined, targetPoint: Point, depth: 
   let otherBranch: TreeNode | undefined;
 
   if (targetK < rootK) {
-    nextBranch = root.left
-    otherBranch = root.right
+    nextBranch = root.left;
+    otherBranch = root.right;
   } else {
-    nextBranch = root.right
-    otherBranch = root.left
+    nextBranch = root.right;
+    otherBranch = root.left;
   }
   
   const nextBranchBest = nearestNeighbor(nextBranch, targetPoint, depth + 1);
@@ -94,7 +94,7 @@ function nearestNeighbor(root: TreeNode | undefined, targetPoint: Point, depth: 
       best = closest(otherBranchRes.best, best, targetPoint);
     }
   }
-  bestDistance = euclideanDistance(best.point, targetPoint)
+  bestDistance = euclideanDistance(best.point, targetPoint);
 
   return { best, bestDistance };
 }
@@ -108,7 +108,7 @@ export function nearestNeighbors(target: Point[], source: Point[]): {
   const resDistance: number[] = [];
   source.forEach((point: Point) => {
     const {best, bestDistance} = nearestNeighbor(targetKdtree, point)!;
-    res.push(best.point)
+    res.push(best.point);
     resDistance.push(bestDistance);
   });
 
