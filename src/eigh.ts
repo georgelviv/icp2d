@@ -5,7 +5,7 @@ function selectColumns(matrix: Matrix2d, columns: Vector): Matrix2d {
   return matrix.map(row => columns.map(col => row[col]));
 }
 
-function qrDecomposition(a: Matrix2d): {
+export function qrDecomposition(a: Matrix2d): {
   q: Matrix2d, r: Matrix2d
 } {
   const m: number = a.length;
@@ -33,7 +33,7 @@ function qrDecomposition(a: Matrix2d): {
   return { q, r };
 }
 
-function eigh(matrix: Matrix2d, tol = 1e-10, maxIterations = 1000): {
+export function eigh(matrix: Matrix2d, tol = 1e-10, maxIterations = 1000): {
   eigenvalues: Vector, eigenvectors: Matrix2d
 } {
   const n: number = matrix.length;

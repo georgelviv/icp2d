@@ -21,7 +21,7 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
   let sourceTransformed: Point[] = source;
 
   for (let i = 0; i < opts.maxIterations; i++) {
-    const {res: matched, resDistance: matchedDistance} = nearestNeighbors(target, sourceTransformed);
+    const {res: matched, resDistance: matchedDistance} = nearestNeighbors(sourceTransformed, target);
     const sourceCentroid: Point = getCentroid(source);
     const targetCentroid: Point = getCentroid(matched);
 

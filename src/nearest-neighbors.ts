@@ -99,7 +99,7 @@ function nearestNeighbor(root: TreeNode | undefined, targetPoint: Point, depth: 
   return { best, bestDistance };
 }
 
-export function nearestNeighbors(target: Point[], source: Point[]): {
+export function nearestNeighbors(source: Point[], target: Point[]): {
   res: Point[], resDistance: number[]
 } {
   const targetKdtree = buildKdtree(target);
