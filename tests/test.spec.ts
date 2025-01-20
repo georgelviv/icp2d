@@ -2,7 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { expect, describe, it, beforeAll } from '@jest/globals';
 
-import { Point, nearestNeighbors } from '../src';
+import { Point, icp, nearestNeighbors } from '../src';
+import { rotationMatrixToAngle } from '../src/utils';
 
 const basePointsPath = path.join(__dirname, './data/base-points.csv');
 const transomedPointsPath = path.join(__dirname, './data/transformed-points.csv');
@@ -26,6 +27,24 @@ describe('nearestNeighbors', () => {
 
     expect(res[2][0]).toBeCloseTo(-6.36350066);
     expect(res[2][1]).toBeCloseTo(-6.3319098);
+  });
+});
+
+describe('rotationMatrixToAngle', () => {
+  it('should convert rotation radians to angle', () => {
+    const rotation = [
+      [ 0.99998827,  0.00484389],
+      [-0.00484389,  0.99998827]
+    ];
+    expect(rotationMatrixToAngle(rotation)).toBe(-0.2775355382751544);
+  });
+});
+
+describe('icp', () => {
+  it('should calculate nearest neighbors properly', async () => {
+    const {translation, rotation} = icp(basePoints, transomedPoints);
+    expect(translation).toEqual([1.0043732178847706, 0.7916555966686276]);
+    expect(rotation).toBe(-5.002987763422438);
   });
 });
 
