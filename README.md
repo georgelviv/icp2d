@@ -61,8 +61,3 @@ const options: Options =  Options {
 
 ## Examples
 You can find results performed on real cases at [test.ipynb](./tests/test.ipynb)
-
-
-
-### Ideas
-- Limit far points

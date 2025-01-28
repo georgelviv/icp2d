@@ -25,7 +25,7 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
   let sourceTransformed: Point[] = source;
 
   for (let i = 0; i < opts.maxIterations; i++) {
-    let {res: matched, resDistance: matchedDistance} = nearestNeighbors(sourceTransformed, target);
+    const {res: matched, resDistance: matchedDistance} = nearestNeighbors(sourceTransformed, target);
     const sourceCentroid: Point = getCentroid(sourceTransformed);
     const targetCentroid: Point = getCentroid(matched);
 
@@ -37,10 +37,10 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
     }, []);
 
     sourceTransformed = deleteByIndices(sourceTransformed, outliersIndices);
-    matched = deleteByIndices(matched, outliersIndices);
+    const filteredMatched: Point[] = deleteByIndices(matched, outliersIndices);
 
     const sourceCentered: Point[] = translateNegative(sourceTransformed, sourceCentroid);
-    const targetCentered: Point[] = translateNegative(matched, targetCentroid);
+    const targetCentered: Point[] = translateNegative(filteredMatched, targetCentroid);
 
     const sourceCenteredTransposed: Matrix2d = transpose(sourceCentered);
 

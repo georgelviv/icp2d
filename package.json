@@ -1,6 +1,6 @@
 {
   "name": "icp2d",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Iterative Closest Point (ICP) on 2D points",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",

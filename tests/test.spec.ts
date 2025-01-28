@@ -131,7 +131,7 @@ describe('calculateU', () => {
 describe('icp', () => {
   it('should calculate properly', () => {
     const {translation, rotationMatrix} = icp(basePoints, transomedPoints, {verbose: true});
-    expect(translation).toEqual([4757.675443996442, -76.60702683161139]);
-    expect(rotationMatrix).toEqual([[0.9969508705336391, 0.07803179955779048], [-0.07803179955779399, 0.9969508705336392]]);
+    expect(translation).toEqual([172.10838462785273, 4.289985341894908]);
+    expect(rotationMatrix).toEqual([[0.9998618587202982, 0.016621175541821187], [-0.016621175541825173, 0.9998618587203015]]);
   });
 });
