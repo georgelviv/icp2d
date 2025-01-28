@@ -2,6 +2,16 @@
 
 A simple TypeScript library for performing Iterative Closest Point (ICP) algorithm on 2D point clouds with zero dependencies. This library works both in the browser and in Node.js, and is compatible with both JavaScript and TypeScript.
 
+## Table of Contents
+
+- [Iterative Closest Point (ICP) for 2D Points Library](#iterative-closest-point-icp-for-2d-points-library)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Output](#output)
+    - [Available options](#available-options)
+  - [Examples](#examples)
+
 ## Installation
 
 ```bash
@@ -54,15 +64,10 @@ import { Result } from 'icp2d';
 const options: Options =  Options {
   tolerance: 10e6, // Convergence tolerance
   maxIterations: 500, // Maximum number of iterations
-  verbose: true // Outputs some additional logs
+  verbose: true, // Outputs some additional logs
   maxDistance: 1000 // Filter noise by distance in nearest neighbors
 }
 ``` 
 
 ## Examples
 You can find results performed on real cases at [test.ipynb](./tests/test.ipynb)
-
-
-
-### Ideas
-- Limit far points

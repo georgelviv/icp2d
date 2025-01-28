@@ -1,44 +1,48 @@
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'node:path';
+import fs from 'node:fs';
 import { readCsvPoints, saveCsvPoints } from './utils';
-import { icp } from '../src';
+import { icp, Matrix2d, Point } from '../src';
 
-type Task = [input: string, target: string, output: string];
 
-const tests: Task[] = [
-  ['test1a', 'test1b', 'test1'],
-  ['test2a', 'test2b', 'test2'],
-  ['test3a', 'test3b', 'test3'],
-  ['test4a', 'test4b', 'test4'],
-  ['test5a', 'test5b', 'test5'],
-  ['test6a', 'test6b', 'test6']
-];
+init([1, 2, 3, 4, 5, 6]);
 
-init(tests);
-
-async function init(tasks: Task[]): Promise<void> {
+async function init(tasks: number[]): Promise<void> {
   for (let i = 0; i < tasks.length; i++) {
-    const [input, target, output] = tasks[i];
+    const taskNumber = tasks[i];
+  
     console.log(`Task ${i + 1}/${tasks.length} running`);
-    await writeResults(input, target, output);
+    await writeResults(taskNumber);
     console.log(`Task ${i + 1}/${tasks.length} completed`);
   }
 }
 
-async function writeResults(inputPath: string, targetPath: string, output: string): Promise<void> {
-  const basePointsPath = getPath(`data/${inputPath}.csv`);
-  const transomedPointsPath = getPath(`data/${targetPath}.csv`);
+async function writeResults(task: number): Promise<void> {
+  const basePointsPath = getPath(`data/test${task}a.csv`);
+  const transomedPointsPath = getPath(`data/test${task}b.csv`);
   const basePoints = await readCsvPoints(basePointsPath);
   const transomedPoints = await readCsvPoints(transomedPointsPath);
 
-  const { sourceTransformed } = icp(basePoints, transomedPoints, {verbose: true});
+  const { sourceTransformed, translation, rotationMatrix } = icp(basePoints, transomedPoints, {verbose: true});
 
-  saveCsvPoints(sourceTransformed, getPath(`results/${output}.csv`));
+  saveCsvPoints(sourceTransformed, getPath(`results/test${task}.csv`));
+  saveTransformations(translation, rotationMatrix, getPath(`results/transformations${task}.json`))
 }
-
 
 function getPath(relativePath: string): string {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
   return join(__dirname, relativePath);
+}
+
+export async function saveTransformations(translation: Point, rotationMatrix: Matrix2d, filePath: string) {
+  try {
+    const data = {
+      translation, rotationMatrix
+    };
+    await fs.promises.writeFile(filePath, JSON.stringify(data, null, 2));
+  } catch (error) {
+    console.error('Error writing CSV:', error);
+    throw error;
+  }
 }
