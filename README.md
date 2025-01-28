@@ -31,8 +31,36 @@ const target: Point[] = [
 const res = icp(sourceCartesian, targetCartesian);
 console.log(res.sourceTransformed);
 console.log(res.translation);
-console.log(res.rotation)
+console.log(res.rotationMatrix)
 ```
+
+###  Output 
+Output has `R` rotation matrix, `t` - translation vector, transformed points, and rotation in degrees. Output 
+```typescript
+import { Result } from 'icp2d';
+
+const res: Result =  {
+  sourceTransformed: Point[]; // transformed points
+  translation: Point; // t - translation vector
+  rotation: number; // rotation in degrees
+  rotationMatrix: Matrix2d; // R - rotation matrix
+}
+``` 
+
+###  Available options
+```typescript
+import { Result } from 'icp2d';
+
+const options: Options =  Options {
+  tolerance: 10e6, // Convergence tolerance
+  maxIterations: 500, // Maximum number of iterations
+  verbose: true // Outputs some additional logs
+}
+``` 
+
+## Examples
+You can find results performed on real cases at [test.ipynb](./tests/test.ipynb)
+
 
 
 ### Ideas

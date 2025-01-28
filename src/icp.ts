@@ -45,7 +45,7 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
     rFinal = dot(r, rFinal);
     tFinal = translatePoint(matrixVectorMultiply(r, tFinal) as Point, t);
 
-    sourceTransformed = addTranslation(dot(source, r), t) as Point[];
+    sourceTransformed = addTranslation(dot(source, transpose(r)), t) as Point[];
   
     const meanError = getMean(matchedDistance);
     if (Math.abs(prevError - meanError) < opts.tolerance) {
@@ -54,6 +54,7 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
       }
       break;
     }
+
     prevError = meanError;
   }
 
