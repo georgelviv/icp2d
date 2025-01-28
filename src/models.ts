@@ -3,6 +3,7 @@ export interface Options {
   tolerance: number;
   maxIterations: number;
   verbose: boolean;
+  maxDistance: number;
 };
 
 export type Matrix2d = number[][];

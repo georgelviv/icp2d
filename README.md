@@ -55,6 +55,7 @@ const options: Options =  Options {
   tolerance: 10e6, // Convergence tolerance
   maxIterations: 500, // Maximum number of iterations
   verbose: true // Outputs some additional logs
+  maxDistance: 1000 // Filter noise by distance in nearest neighbors
 }
 ``` 
 

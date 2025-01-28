@@ -82,3 +82,8 @@ export function rotationMatrixToAngle(r: Matrix2d): number {
   const angleInDegrees = angle * (180 / Math.PI);
   return angleInDegrees;
 }
+
+export function deleteByIndices<T>(arr: T[], indices: number[]): T[] {
+  const indicesSet = new Set(indices);
+  return arr.filter((_, index) => !indicesSet.has(index));
+}
