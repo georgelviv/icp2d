@@ -33,3 +33,7 @@ console.log(res.sourceTransformed);
 console.log(res.translation);
 console.log(res.rotation)
 ```
+
+
+### Ideas
+- Limit far points

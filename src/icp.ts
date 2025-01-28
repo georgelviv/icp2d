@@ -1,7 +1,10 @@
 import { calculateU, calculateVt } from './eigh';
 import { Matrix2d, Options, Point, Result, Vector } from './models';
 import { nearestNeighbors } from './nearest-neighbors';
-import { addTranslation, dot, getCentroid, getMean, matrixVectorMultiply, rotationMatrixToAngle, translate, transpose, vectorSubtract } from './utils';
+import {
+  addTranslation, dot, getCentroid, getMean, matrixVectorMultiply,
+  rotationMatrixToAngle, translateNegative, translatePoint, transpose, vectorSubtract
+} from './utils';
 
 const defaultOptions: Options = {
   tolerance: 1e-6,
@@ -16,8 +19,8 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
   };
 
   let prevError: number = Infinity;
-  let t: Point;
-  let r: Matrix2d;
+  let tFinal: Point = [0, 0];
+  let rFinal: Matrix2d = [[1, 0], [0, 1]];
   let sourceTransformed: Point[] = source;
 
   for (let i = 0; i < opts.maxIterations; i++) {
@@ -25,8 +28,8 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
     const sourceCentroid: Point = getCentroid(source);
     const targetCentroid: Point = getCentroid(matched);
 
-    const sourceCentered: Point[] = translate(source, sourceCentroid);
-    const targetCentered: Point[] = translate(matched, targetCentroid);
+    const sourceCentered: Point[] = translateNegative(source, sourceCentroid);
+    const targetCentered: Point[] = translateNegative(matched, targetCentroid);
 
     const sourceCenteredTransposed: Matrix2d = transpose(sourceCentered);
 
@@ -35,10 +38,15 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
     const u: Matrix2d = calculateU(h);
     const vT: Matrix2d = calculateVt(h);
 
-    r = dot(u, vT);
+    const r = dot(transpose(vT), transpose(u)); // rotation matrix
     const transformedSource: Vector = matrixVectorMultiply(r, sourceCentroid);
-    t = vectorSubtract(targetCentroid, transformedSource) as Point;
+    const t = vectorSubtract(targetCentroid, transformedSource) as Point; // translation vector
+
+    rFinal = dot(r, rFinal);
+    tFinal = translatePoint(matrixVectorMultiply(r, tFinal) as Point, t);
+
     sourceTransformed = addTranslation(dot(source, r), t) as Point[];
+  
     const meanError = getMean(matchedDistance);
     if (Math.abs(prevError - meanError) < opts.tolerance) {
       if (opts.verbose) {
@@ -51,7 +59,8 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
 
   return {
     sourceTransformed, 
-    translation: t!,
-    rotation: rotationMatrixToAngle(r!)
+    translation: tFinal,
+    rotationMatrix: rFinal,
+    rotation: rotationMatrixToAngle(rFinal)
   };
 }

@@ -11,7 +11,7 @@ export function getCentroid(points: Point[]): Point {
   return [x, y];
 }
 
-export function translate(points: Point[], translation: Point): Point[] {
+export function translateNegative(points: Point[], translation: Point): Point[] {
   return points.map((point) => {
     return [
       point[0] - translation[0],
@@ -66,6 +66,10 @@ export function vectorSubtract(v1: Vector, v2: Vector): Vector {
 
 export function addTranslation(points: Matrix2d, t: Vector): Matrix2d {
   return points.map(point => point.map((value, i) => value + t[i]));
+}
+
+export function translatePoint(v: Point, t: Point): Point {
+  return [v[0] + t[0], v[1] + t[1]];
 }
 
 export function getMean(n: number[]): number {
