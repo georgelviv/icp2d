@@ -34,7 +34,7 @@ describe('nearestNeighbors', () => {
 
 describe('rotationMatrixToAngle', () => {
   it('should convert rotation radians to angle', () => {
-    const rotation = [
+    const rotation: Matrix2d = [
       [ 0.99998827,  0.00484389],
       [-0.00484389,  0.99998827]
     ];

@@ -26,7 +26,7 @@ async function writeResults(task: number): Promise<void> {
   const { sourceTransformed, translation, rotationMatrix } = icp(basePoints, transomedPoints, {verbose: true});
 
   saveCsvPoints(sourceTransformed, getPath(`results/test${task}.csv`));
-  saveTransformations(translation, rotationMatrix, getPath(`results/transformations${task}.json`))
+  saveTransformations(translation, rotationMatrix, getPath(`results/transformations${task}.json`));
 }
 
 function getPath(relativePath: string): string {

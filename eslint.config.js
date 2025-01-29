@@ -18,7 +18,8 @@ export default [
   },
   {
     rules: {
-      'semi': 'error'
+      'semi': 'error',
+      'indent': ['error', 2]
     }
   }
 ];

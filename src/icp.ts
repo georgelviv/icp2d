@@ -1,5 +1,5 @@
 import { calculateU, calculateVt } from './eigh';
-import { Matrix2d, Options, Point, Result, Vector } from './models';
+import { Matrix2d, Matrix2x2, Options, Point, Result, Vector } from './models';
 import { nearestNeighbors } from './nearest-neighbors';
 import {
   addTranslation, deleteByIndices, dot, getCentroid, getMean, matrixVectorMultiply,
@@ -21,7 +21,7 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
 
   let prevError: number = Infinity;
   let tFinal: Point = [0, 0];
-  let rFinal: Matrix2d = [[1, 0], [0, 1]];
+  let rFinal: Matrix2x2 = [[1, 0], [0, 1]];
   let sourceTransformed: Point[] = source;
 
   for (let i = 0; i < opts.maxIterations; i++) {
@@ -53,7 +53,7 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
     const transformedSource: Vector = matrixVectorMultiply(r, sourceCentroid);
     const t = vectorSubtract(targetCentroid, transformedSource) as Point; // translation vector
 
-    rFinal = dot(r, rFinal);
+    rFinal = dot(r, rFinal) as Matrix2x2;
     tFinal = translatePoint(matrixVectorMultiply(r, tFinal) as Point, t);
 
     sourceTransformed = addTranslation(dot(sourceTransformed, transpose(r)), t) as Point[];
