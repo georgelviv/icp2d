@@ -1,6 +1,6 @@
 # Iterative Closest Point (ICP) for 2D Points Library
 
-A simple TypeScript library for performing Iterative Closest Point (ICP) algorithm on 2D point clouds with zero dependencies. This library works both in the browser and in Node.js, and is compatible with both JavaScript and TypeScript.
+A simple TypeScript library for performing [Iterative Closest Point](https://en.wikipedia.org/wiki/Iterative_closest_point) (ICP) algorithm on 2D point clouds with zero dependencies. This library works both in the browser and in Node.js, and is compatible with both JavaScript and TypeScript.
 
 ## Table of Contents
 
@@ -53,7 +53,8 @@ const res: Result =  {
   sourceTransformed: Point[]; // transformed points
   translation: Point; // t - translation vector
   rotation: number; // rotation in degrees
-  rotationMatrix: Matrix2d; // R - rotation matrix
+  rotationMatrix: Matrix2d; // R - rotation matrix,
+  err: number; // error calculated by RMS
 }
 ``` 
 

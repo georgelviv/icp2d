@@ -14,5 +14,6 @@ export interface Result {
   sourceTransformed: Point[];
   translation: Point;
   rotation: number;
+  err: number;
   rotationMatrix: Matrix2x2;
 }

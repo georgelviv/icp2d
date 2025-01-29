@@ -5,7 +5,7 @@ import { readCsvPoints, saveCsvPoints } from './utils';
 import { icp, Matrix2d, Point } from '../src';
 
 
-init([1, 2, 3, 4, 5, 6]);
+init([7]);
 
 async function init(tasks: number[]): Promise<void> {
   for (let i = 0; i < tasks.length; i++) {

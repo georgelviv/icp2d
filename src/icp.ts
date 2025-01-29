@@ -61,7 +61,7 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
     const meanError = getMean(matchedDistance);
     if (Math.abs(prevError - meanError) < opts.tolerance) {
       if (opts.verbose) {
-        console.log(`Converged at iteration ${i + 1}`);
+        console.log(`Converged at iteration ${i + 1} with error ${meanError}`);
       }
       break;
     }
@@ -70,6 +70,7 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
   }
 
   return {
+    err: prevError,
     sourceTransformed, 
     translation: tFinal,
     rotationMatrix: rFinal,
