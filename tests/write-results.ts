@@ -2,10 +2,12 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'node:path';
 import fs from 'node:fs';
 import { readCsvPoints, saveCsvPoints } from './utils';
-import { icp, Matrix2d, Point } from '../src';
+import { icp, Result } from '../src';
 
 
-init([1, 2, 3, 4, 5, 6]);
+const resultsPath = 'results/max-distance-100';
+
+init([1,2,3,4,5,6,7]);
 
 async function init(tasks: number[]): Promise<void> {
   for (let i = 0; i < tasks.length; i++) {
@@ -23,12 +25,12 @@ async function writeResults(task: number): Promise<void> {
   const basePoints = await readCsvPoints(basePointsPath);
   const transomedPoints = await readCsvPoints(transomedPointsPath);
 
-  const { sourceTransformed, translation, rotationMatrix } = icp(basePoints, transomedPoints, {
+  const res = icp(basePoints, transomedPoints, {
     verbose: true, maxDistance: 100}
   );
 
-  saveCsvPoints(sourceTransformed, getPath(`results/test${task}.csv`));
-  saveTransformations(translation, rotationMatrix, getPath(`results/transformations${task}.json`));
+  saveCsvPoints(res.sourceTransformed, getPath(`${resultsPath}/test${task}.csv`));
+  saveTransformations(res, getPath(`${resultsPath}/transformations${task}.json`));
 }
 
 function getPath(relativePath: string): string {
@@ -37,10 +39,11 @@ function getPath(relativePath: string): string {
   return join(__dirname, relativePath);
 }
 
-export async function saveTransformations(translation: Point, rotationMatrix: Matrix2d, filePath: string) {
+export async function saveTransformations(res: Result, filePath: string) {
   try {
     const data = {
-      translation, rotationMatrix
+      translation: res.translation, rotationMatrix: res.rotationMatrix,
+      error: res.err
     };
     await fs.promises.writeFile(filePath, JSON.stringify(data, null, 2));
   } catch (error) {

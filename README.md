@@ -72,7 +72,7 @@ const options: Options =  Options {
 ``` 
 
 ### Improve results by filtering noise
-The `maxDistance` parameter can significantly improve results in the Iterative Closest Point (ICP) algorithm, as it filters points when matching nearest neighbors. This helps improve both accuracy and performance by ignoring correspondences that are too far apart to be meaningful. But it can also decrease efficiency.
+The `maxDistance` parameter can significantly improve results in the Iterative Closest Point (ICP) algorithm, as it filters points when matching nearest neighbors. This helps improve both accuracy and performance by ignoring correspondences that are too far apart to be meaningful. But it can also decrease efficiency. You can check how it affects different examples in [test.ipynb](./tests/test.ipynb)
 
 ## Examples
-You can find results performed on real cases at [test.ipynb](./tests/test.ipynb)
+You can find results performed on real cases at [test.ipynb](./tests/test.ipynb). [verify-transforms.ipynb](./tests/verify-transforms.ipynb) verifies that received transformations are correct.
