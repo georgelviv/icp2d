@@ -5,7 +5,7 @@ import { readCsvPoints, saveCsvPoints } from './utils';
 import { icp, Matrix2d, Point } from '../src';
 
 
-init([7]);
+init([1, 2, 3, 4, 5, 6]);
 
 async function init(tasks: number[]): Promise<void> {
   for (let i = 0; i < tasks.length; i++) {
@@ -23,7 +23,9 @@ async function writeResults(task: number): Promise<void> {
   const basePoints = await readCsvPoints(basePointsPath);
   const transomedPoints = await readCsvPoints(transomedPointsPath);
 
-  const { sourceTransformed, translation, rotationMatrix } = icp(basePoints, transomedPoints, {verbose: true});
+  const { sourceTransformed, translation, rotationMatrix } = icp(basePoints, transomedPoints, {
+    verbose: true, maxDistance: 100}
+  );
 
   saveCsvPoints(sourceTransformed, getPath(`results/test${task}.csv`));
   saveTransformations(translation, rotationMatrix, getPath(`results/transformations${task}.json`));

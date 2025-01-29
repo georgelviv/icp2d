@@ -10,6 +10,7 @@ A simple TypeScript library for performing [Iterative Closest Point](https://en.
   - [Usage](#usage)
     - [Output](#output)
     - [Available options](#available-options)
+    - [Improve results by filtering noise](#improve-results-by-filtering-noise)
   - [Examples](#examples)
 
 ## Installation
@@ -19,7 +20,7 @@ npm install icp2d
 ```
 
 ## Usage
-To use the ICP (Iterative Closest Point) algorithm for aligning 2D point clouds, you can call the icp function, which calculates the transformation between two sets of 2D points (`source` and `target`).
+To use the ICP (Iterative Closest Point) algorithm for aligning 2D point clouds, you can call the icp function, which calculates the transformation between two sets of 2D points (`source` and `target`). 
 
 ```typescript
 import { icp, Point } from 'icp2d';
@@ -66,9 +67,12 @@ const options: Options =  Options {
   tolerance: 10e6, // Convergence tolerance
   maxIterations: 500, // Maximum number of iterations
   verbose: true, // Outputs some additional logs
-  maxDistance: 1000 // Filter noise by distance in nearest neighbors
+  maxDistance: 100 // Filter noise by distance in nearest neighbors
 }
 ``` 
+
+### Improve results by filtering noise
+The `maxDistance` parameter can significantly improve results in the Iterative Closest Point (ICP) algorithm, as it filters points when matching nearest neighbors. This helps improve both accuracy and performance by ignoring correspondences that are too far apart to be meaningful. But it can also decrease efficiency.
 
 ## Examples
 You can find results performed on real cases at [test.ipynb](./tests/test.ipynb)
