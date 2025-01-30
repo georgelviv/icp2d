@@ -2,7 +2,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'node:path';
 import fs from 'node:fs';
 import { readCsvPoints, saveCsvPoints } from './utils';
-import { FilterOutliersOptions, icp, Options, OutliersFilteringStrategy, Point, Result } from '../src';
+import { icp, Options, Point, Result } from '../src';
 
 init([1, 2, 3, 4, 5, 6, 7], true, true);
 
@@ -24,7 +24,7 @@ async function writeResults(task: number, includeMaxDistance = false, includeStd
 
   const noneOptions: Partial<Options> = {
     verbose: true, filterOutliers: {
-      strategy: OutliersFilteringStrategy.none
+      strategy: 'none'
     }
   };
 
@@ -33,7 +33,7 @@ async function writeResults(task: number, includeMaxDistance = false, includeStd
   if (includeMaxDistance) {
     const maxDistanceOptions: Partial<Options> = {
       verbose: true, filterOutliers: {
-        strategy: OutliersFilteringStrategy.maxDistance
+        strategy: 'maxDistance'
       }
     };
 
@@ -43,9 +43,9 @@ async function writeResults(task: number, includeMaxDistance = false, includeStd
   if (includeStd) {
     const stdOptions: Partial<Options> = {
       verbose: true, filterOutliers: {
-        strategy: OutliersFilteringStrategy.std
+        strategy: 'std'
       }
-    }
+    };
 
     await writeResult(basePoints, transomedPoints, stdOptions, 'results/std', task);
   }

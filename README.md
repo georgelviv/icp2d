@@ -1,6 +1,6 @@
 # Iterative Closest Point (ICP) for 2D Points Library
 
-A simple TypeScript library for performing [Iterative Closest Point](https://en.wikipedia.org/wiki/Iterative_closest_point) (ICP) algorithm on 2D point clouds with zero dependencies. This library works both in the browser and in Node.js, and is compatible with both JavaScript and TypeScript.
+A simple TypeScript library for performing the [Iterative Closest Point](https://en.wikipedia.org/wiki/Iterative_closest_point) (ICP) algorithm on 2D point clouds, with zero dependencies. This library works both in the browser and in Node.js and is compatible with JavaScript and TypeScript.
 
 ## Table of Contents
 
@@ -10,9 +10,9 @@ A simple TypeScript library for performing [Iterative Closest Point](https://en.
   - [Usage](#usage)
     - [Output](#output)
     - [Available options](#available-options)
-    - [Improve results by filtering noise](#improve-results-by-filtering-noise)
+      - [Improving Results by Filtering Noise](#improving-results-by-filtering-noise)
   - [Examples](#examples)
-    - [Ideas](#ideas)
+  - [Ideas](#ideas)
 
 ## Installation
 
@@ -21,7 +21,7 @@ npm install icp2d
 ```
 
 ## Usage
-To use the ICP (Iterative Closest Point) algorithm for aligning 2D point clouds, you can call the icp function, which calculates the transformation between two sets of 2D points (`source` and `target`). 
+To use the ICP algorithm for aligning 2D point clouds, you can call the icp function, which calculates the transformation between two sets of 2D points (`source` and `target`).
 
 ```typescript
 import { icp, Point } from 'icp2d';
@@ -40,44 +40,83 @@ const target: Point[] = [
 ];
 
 // Perform the ICP algorithm to align the source point cloud to the target
-const res = icp(sourceCartesian, targetCartesian);
+const res = icp(source, target);
 console.log(res.sourceTransformed);
 console.log(res.translation);
 console.log(res.rotationMatrix)
 ```
 
 ###  Output 
-Output has `R` rotation matrix, `t` - translation vector, transformed points, and rotation in degrees. Output 
+The output includes the rotation matrix (`R`), translation vector (`t`), transformed points, and the rotation in degrees. Example:
+
 ```typescript
 import { Result } from 'icp2d';
 
-const res: Result =  {
-  sourceTransformed: Point[]; // transformed points
-  translation: Point; // t - translation vector
-  rotation: number; // rotation in degrees
-  rotationMatrix: Matrix2d; // R - rotation matrix,
-  err: number; // error calculated by RMS
-}
+const res: Result = {
+  sourceTransformed: Point[]; // Transformed points
+  translation: Point; // t - Translation vector
+  rotation: number; // Rotation in degrees
+  rotationMatrix: Matrix2x2; // R - Rotation matrix
+  err: number; // Error calculated using RMS
+};
 ``` 
 
 ###  Available options
 ```typescript
-import { Result } from 'icp2d';
+import { Options } from 'icp2d';
 
-const options: Options =  Options {
+const options: Options = {
   tolerance: 10e6, // Convergence tolerance
   maxIterations: 500, // Maximum number of iterations
-  verbose: true, // Outputs some additional logs
-  maxDistance: 1000 // Filter noise by distance in nearest neighbors
-}
+  verbose: true, // Outputs additional logs
+  filterOutliers: {
+    strategy: 'none' | 'maxDistance' | 'std'; // Strategy options for detecting outliers
+    maxDistance: 500; // Optional, used for the max distance strategy
+    threshold: 2; // Optional, used for the standard deviation strategy
+  }
+};
 ``` 
 
-### Improve results by filtering noise
-The `maxDistance` parameter can significantly improve results in the Iterative Closest Point (ICP) algorithm, as it filters points when matching nearest neighbors. This helps improve both accuracy and performance by ignoring correspondences that are too far apart to be meaningful. But it can also decrease efficiency. You can check how it affects different examples in [test.ipynb](./tests/test.ipynb)
+#### Improving Results by Filtering Noise
+Filtering noise can significantly enhance the accuracy of the ICP algorithm. You can see its effects in different examples in [test.ipynb](./tests/test.ipynb). Here are different strategies to filter noise:
+
+- **Max Distance Strategy**: Removes points that are further than a defined maximum distance from their closest neighbor in the target set.
+
+```typescript
+const options = {
+  filterOutliers: {
+    strategy: 'maxDistance',
+    maxDistance: 500
+  }
+};
+```
+
+- **Standard Deviation Strategy**: Excludes points that deviate too much from the mean error using a threshold based on standard deviation.
+
+```typescript
+const options = {
+  filterOutliers: {
+    strategy: 'std',
+    threshold: 2
+  }
+};
+```
+
+- **None**: Retains all points, without filtering.
+
+```typescript
+const options = {
+  filterOutliers: {
+    strategy: 'none'
+  }
+};
+```
+
+Using these strategies helps to remove outliers that can distort transformation calculations, leading to more stable and accurate results.
+
 
 ## Examples
-You can find results performed on real cases at [test.ipynb](./tests/test.ipynb). [verify-transforms.ipynb](./tests/verify-transforms.ipynb) verifies that received transformations are correct.
+You can find real-world test cases in [test.ipynb](./tests/test.ipynb). [verify-transforms.ipynb](./tests/verify-transforms.ipynb) verifies that the computed transformations are correct.
 
-
-### Ideas
-- Add dbscan for finding outliers
+## Ideas
+- Add DBSCAN for identifying outliers.

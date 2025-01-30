@@ -12,11 +12,7 @@ export interface FilterOutliersOptions {
   threshold?: number;
 }
 
-export enum OutliersFilteringStrategy {
-  none = 'none',
-  maxDistance = 'maxDistance',
-  std = 'std'
-}
+export type OutliersFilteringStrategy = 'none' | 'maxDistance' | 'std';
 
 export type Matrix2d = number[][];
 export type Vector = number[];

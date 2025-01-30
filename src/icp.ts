@@ -1,5 +1,5 @@
 import { calculateU, calculateVt } from './eigh';
-import { Matrix2d, Matrix2x2, Options, OutliersFilteringStrategy, Point, Result, Vector } from './models';
+import { Matrix2d, Matrix2x2, Options, Point, Result, Vector } from './models';
 import { nearestNeighbors } from './nearest-neighbors';
 import { getOutliersIndices } from './outliers';
 import {
@@ -12,7 +12,7 @@ const defaultOptions: Options = {
   maxIterations: 500,
   verbose: false,
   filterOutliers: {
-    strategy: OutliersFilteringStrategy.std,
+    strategy: 'std',
     threshold: 2,
     maxDistance: 500
   }
@@ -44,7 +44,7 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
     const filteredMatched: Point[] = deleteByIndices(matched, outliersIndices);
 
     if (!filteredMatched.length) {
-      throw Error('Choose other filter strategy, as current removed all points')
+      throw Error('Choose other filter strategy, as current removed all points');
     }
 
     const sourceCentered: Point[] = translateNegative(sourceTransformed, sourceCentroid);

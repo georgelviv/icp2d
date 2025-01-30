@@ -1,11 +1,11 @@
-import { FilterOutliersOptions, OutliersFilteringStrategy } from './models';
+import { FilterOutliersOptions } from './models';
 import { getMean } from './utils';
 
 export function getOutliersIndices(opts: FilterOutliersOptions, matchedDistance: number[]): number[] {
-  if (opts.strategy === OutliersFilteringStrategy.maxDistance) {
+  if (opts.strategy === 'maxDistance') {
     return getOutliersMaxDistance(opts.maxDistance!, matchedDistance);
   };
-  if (opts.strategy === OutliersFilteringStrategy.std) {
+  if (opts.strategy === 'std') {
     return getOutliersSTD(opts.threshold!, matchedDistance);
   }
   return [];
