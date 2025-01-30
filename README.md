@@ -12,6 +12,7 @@ A simple TypeScript library for performing [Iterative Closest Point](https://en.
     - [Available options](#available-options)
     - [Improve results by filtering noise](#improve-results-by-filtering-noise)
   - [Examples](#examples)
+    - [Ideas](#ideas)
 
 ## Installation
 
@@ -67,7 +68,7 @@ const options: Options =  Options {
   tolerance: 10e6, // Convergence tolerance
   maxIterations: 500, // Maximum number of iterations
   verbose: true, // Outputs some additional logs
-  maxDistance: 100 // Filter noise by distance in nearest neighbors
+  maxDistance: 1000 // Filter noise by distance in nearest neighbors
 }
 ``` 
 
@@ -76,3 +77,7 @@ The `maxDistance` parameter can significantly improve results in the Iterative C
 
 ## Examples
 You can find results performed on real cases at [test.ipynb](./tests/test.ipynb). [verify-transforms.ipynb](./tests/verify-transforms.ipynb) verifies that received transformations are correct.
+
+
+### Ideas
+- Add dbscan for finding outliers

@@ -1,6 +1,7 @@
 import { calculateU, calculateVt } from './eigh';
-import { Matrix2d, Matrix2x2, Options, Point, Result, Vector } from './models';
+import { Matrix2d, Matrix2x2, Options, OutliersFilteringStrategy, Point, Result, Vector } from './models';
 import { nearestNeighbors } from './nearest-neighbors';
+import { getOutliersIndices } from './outliers';
 import {
   addTranslation, deleteByIndices, dot, getCentroid, getMean, matrixVectorMultiply,
   rotationMatrixToAngle, translateNegative, translatePoint, transpose, vectorSubtract
@@ -10,13 +11,21 @@ const defaultOptions: Options = {
   tolerance: 1e-6,
   maxIterations: 500,
   verbose: false,
-  maxDistance: 1000
+  filterOutliers: {
+    strategy: OutliersFilteringStrategy.std,
+    threshold: 2,
+    maxDistance: 500
+  }
 };
 
 export function icp(source: Point[], target: Point[], options: Partial<Options> = {}): Result {
-  const opts = {
+  const opts: Options = {
     ...defaultOptions,
-    ...options
+    ...options,
+    filterOutliers: {
+      ...defaultOptions.filterOutliers,
+      ...options.filterOutliers
+    }
   };
 
   let prevError: number = Infinity;
@@ -29,15 +38,14 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
     const sourceCentroid: Point = getCentroid(sourceTransformed);
     const targetCentroid: Point = getCentroid(matched);
 
-    const outliersIndices = matchedDistance.reduce((acc: number[], next: number, i: number) => {
-      if (next > opts.maxDistance) {
-        acc.push(i);
-      }
-      return acc;
-    }, []);
+    const outliersIndices = getOutliersIndices(opts.filterOutliers, matchedDistance);
 
     sourceTransformed = deleteByIndices(sourceTransformed, outliersIndices);
     const filteredMatched: Point[] = deleteByIndices(matched, outliersIndices);
+
+    if (!filteredMatched.length) {
+      throw Error('Choose other filter strategy, as current removed all points')
+    }
 
     const sourceCentered: Point[] = translateNegative(sourceTransformed, sourceCentroid);
     const targetCentered: Point[] = translateNegative(filteredMatched, targetCentroid);
@@ -61,7 +69,7 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
     const meanError = getMean(matchedDistance);
     if (Math.abs(prevError - meanError) < opts.tolerance) {
       if (opts.verbose) {
-        console.log(`Converged at iteration ${i + 1} with error ${meanError}`);
+        console.log(`Converged at iteration ${i + 1} with error ${meanError} with strategy: ${opts.filterOutliers.strategy}`);
       }
       break;
     }

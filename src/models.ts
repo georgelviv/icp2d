@@ -3,8 +3,20 @@ export interface Options {
   tolerance: number;
   maxIterations: number;
   verbose: boolean;
-  maxDistance: number;
+  filterOutliers: FilterOutliersOptions;
 };
+
+export interface FilterOutliersOptions {
+  strategy: OutliersFilteringStrategy;
+  maxDistance?: number;
+  threshold?: number;
+}
+
+export enum OutliersFilteringStrategy {
+  none = 'none',
+  maxDistance = 'maxDistance',
+  std = 'std'
+}
 
 export type Matrix2d = number[][];
 export type Vector = number[];

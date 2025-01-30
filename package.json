@@ -11,7 +11,8 @@
     "build": "npm run build:esm && npm run build:cjs",
     "test": "jest",
     "lint": "npx eslint .",
-    "test:get-results": "npx tsx ./tests/write-results"
+    "test:get-results": "npx tsx ./tests/write-results",
+    "check-and-build": "npm run lint && npm run test && npm run build" 
   },
   "exports": {
     ".": {
