@@ -70,7 +70,7 @@ const options: Options = {
   maxIterations: 500, // Maximum number of iterations
   verbose: true, // Outputs additional logs
   filterOutliers: {
-    strategy: 'none' | 'maxDistance' | 'std'; // Strategy options for detecting outliers
+    strategy: 'none' | 'maxDistance' | 'std' | 'trim'; // Strategy options for detecting outliers
     maxDistance: 500; // Optional, used for the max distance strategy
     threshold: 2; // Optional, used for the standard deviation strategy
   }
@@ -98,6 +98,17 @@ const options = {
   filterOutliers: {
     strategy: 'std',
     threshold: 2
+  }
+};
+```
+
+- **Trim Strategy**: Uses a percentage-based trimming approach, where a fixed percentage of points with the highest errors are removed in each iteration. This is useful when there are scattered outliers rather than a clear separation by distance or deviation.
+
+```typescript
+const options = {
+  filterOutliers: {
+    strategy: 'trim',
+    trimPercent: 5
   }
 };
 ```

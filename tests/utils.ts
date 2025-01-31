@@ -31,3 +31,7 @@ export async function saveCsvPoints(points: Point[], filePath: string) {
 export function roundNumber(n: number): number {
   return Math.round((n + Number.EPSILON) * 10000) / 10000;
 }
+
+export function camelCaseToKebabCase(str: string): string {
+  return str.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+}

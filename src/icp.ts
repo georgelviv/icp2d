@@ -14,7 +14,8 @@ const defaultOptions: Options = {
   filterOutliers: {
     strategy: 'std',
     threshold: 2,
-    maxDistance: 500
+    maxDistance: 500,
+    trimPercent: 5
   }
 };
 
@@ -38,7 +39,7 @@ export function icp(source: Point[], target: Point[], options: Partial<Options> 
     const sourceCentroid: Point = getCentroid(sourceTransformed);
     const targetCentroid: Point = getCentroid(matched);
 
-    const outliersIndices = getOutliersIndices(opts.filterOutliers, matchedDistance);
+    const outliersIndices = getOutliersIndices(opts.filterOutliers, matchedDistance, i);
 
     sourceTransformed = deleteByIndices(sourceTransformed, outliersIndices);
     const filteredMatched: Point[] = deleteByIndices(matched, outliersIndices);

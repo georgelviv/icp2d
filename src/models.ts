@@ -10,9 +10,10 @@ export interface FilterOutliersOptions {
   strategy: OutliersFilteringStrategy;
   maxDistance?: number;
   threshold?: number;
+  trimPercent?: number;
 }
 
-export type OutliersFilteringStrategy = 'none' | 'maxDistance' | 'std';
+export type OutliersFilteringStrategy = 'none' | 'maxDistance' | 'std' | 'trim';
 
 export type Matrix2d = number[][];
 export type Vector = number[];

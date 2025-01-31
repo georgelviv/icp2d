@@ -1,53 +1,35 @@
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'node:path';
 import fs from 'node:fs';
-import { readCsvPoints, saveCsvPoints } from './utils';
-import { icp, Options, Point, Result } from '../src';
+import { camelCaseToKebabCase, readCsvPoints, saveCsvPoints } from './utils';
+import { icp, Options, OutliersFilteringStrategy, Point, Result } from '../src';
 
-init([1, 2, 3, 4, 5, 6, 7, 8], true, true);
+init([1, 2, 3, 4, 5, 6, 7, 8], ['none', 'maxDistance', 'std', 'trim']);
 
-async function init(tasks: number[], includeMaxDistance = false, includeStd = false): Promise<void> {
+async function init(tasks: number[], strategies: OutliersFilteringStrategy[]): Promise<void> {
   for (let i = 0; i < tasks.length; i++) {
     const taskNumber = tasks[i];
   
     console.log(`Task ${i + 1}/${tasks.length} running`);
-    await writeResults(taskNumber, includeMaxDistance, includeStd);
+    await writeResults(taskNumber, strategies);
     console.log(`Task ${i + 1}/${tasks.length} completed`);
   }
 }
 
-async function writeResults(task: number, includeMaxDistance = false, includeStd = false): Promise<void> {
+async function writeResults(task: number, strategies: OutliersFilteringStrategy[]): Promise<void> {
   const basePointsPath = getPath(`data/test${task}a.csv`);
   const transomedPointsPath = getPath(`data/test${task}b.csv`);
   const basePoints: Point[] = await readCsvPoints(basePointsPath);
   const transomedPoints: Point[] = await readCsvPoints(transomedPointsPath);
 
-  const noneOptions: Partial<Options> = {
-    verbose: true, filterOutliers: {
-      strategy: 'none'
-    }
-  };
-
-  await writeResult(basePoints, transomedPoints, noneOptions, 'results/none', task);
-
-  if (includeMaxDistance) {
-    const maxDistanceOptions: Partial<Options> = {
+  for (let strategy of strategies) {
+    const opts: Partial<Options> = {
       verbose: true, filterOutliers: {
-        strategy: 'maxDistance'
+        strategy
       }
     };
-
-    await writeResult(basePoints, transomedPoints, maxDistanceOptions, 'results/max-distance', task);
-  }
-
-  if (includeStd) {
-    const stdOptions: Partial<Options> = {
-      verbose: true, filterOutliers: {
-        strategy: 'std'
-      }
-    };
-
-    await writeResult(basePoints, transomedPoints, stdOptions, 'results/std', task);
+    const path: string = `results/${camelCaseToKebabCase(strategy)}`;
+    await writeResult(basePoints, transomedPoints, opts, path, task);
   }
 }
 

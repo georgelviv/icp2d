@@ -8,6 +8,10 @@ export function getOutliersIndices(opts: FilterOutliersOptions, matchedDistance:
   if (opts.strategy === 'std') {
     return getOutliersSTD(opts.threshold!, matchedDistance);
   }
+
+  if (opts.strategy === 'trim') {
+    return getOutliersTrim(opts.trimPercent!, matchedDistance);
+  }
   return [];
 }
 
@@ -32,6 +36,18 @@ function getOutliersMaxDistance(maxDistance: number, distances: number[]): numbe
   return getOutliers(predicate, distances);
 }
 
+
+function getOutliersTrim(trimPercent: number, distances: number[]): number[] {
+  const sortedDist = distances.slice().sort((a, b) => b - a);
+  const numberToRemove = Math.floor(sortedDist.length * (trimPercent / 100));
+  const threshold = sortedDist[numberToRemove];
+
+  return getOutliers((v) => {
+    return v > threshold;
+  }, distances);
+}
+
+
 function getOutliers(predicate: (v: number) => boolean, distances: number[]): number[] {
   return distances.reduce((acc: number[], next: number, i: number) => {
     if (predicate(next)) {
@@ -40,4 +56,3 @@ function getOutliers(predicate: (v: number) => boolean, distances: number[]): nu
     return acc;
   }, []);
 }
-
