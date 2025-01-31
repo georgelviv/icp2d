@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import { readCsvPoints, saveCsvPoints } from './utils';
 import { icp, Options, Point, Result } from '../src';
 
-init([1, 2, 3, 4, 5, 6, 7], true, true);
+init([1, 2, 3, 4, 5, 6, 7, 8], true, true);
 
 async function init(tasks: number[], includeMaxDistance = false, includeStd = false): Promise<void> {
   for (let i = 0; i < tasks.length; i++) {
@@ -54,7 +54,10 @@ async function writeResults(task: number, includeMaxDistance = false, includeStd
 async function writeResult(
   basePoints: Point[], transomedPoints: Point[],
   options: Partial<Options>, dir: string, task: number): Promise<void> {
+
+  const timestamp: number = Date.now();
   const res = icp(basePoints, transomedPoints, options);
+  console.log(`Execution time - ${Date.now() - timestamp}ms`)
 
   await saveCsvPoints(res.sourceTransformed, getPath(`${dir}/test${task}.csv`));
   await saveResults(res, options, getPath(`${dir}/results${task}.json`));
