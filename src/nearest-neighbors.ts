@@ -1,4 +1,5 @@
 import { Point } from './models';
+import { euclideanDistance } from './utils';
 
 class TreeNode {
 
@@ -12,13 +13,6 @@ class TreeNode {
     this.right = right;
   }
 };
-
-function euclideanDistance(a: Point, b: Point): number {
-  const [x1, y1] = a;
-  const [x2, y2] = b;
-  
-  return Math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2));
-}
 
 function closest(a: TreeNode | undefined, b: TreeNode | undefined, targetPoint: Point): TreeNode {
   if (!a) {

@@ -3,16 +3,26 @@ export interface Options {
   tolerance: number;
   maxIterations: number;
   verbose: boolean;
+  filterNoise: FilterNoiseOptions;
   filterOutliers: FilterOutliersOptions;
 };
+
+export interface FilterNoiseOptions {
+  dbscanEpsilon?: number;
+  dbscanMinPoints?: number;
+  strategy: NoiseFilteringStrategy;
+}
 
 export interface FilterOutliersOptions {
   strategy: OutliersFilteringStrategy;
   maxDistance?: number;
-  threshold?: number;
+  stdThreshold?: number;
   trimPercent?: number;
+  dbscanEpsilon?: number;
+  dbscanMinPoints?: number;
 }
 
+export type NoiseFilteringStrategy = 'none' | 'dbscan';
 export type OutliersFilteringStrategy = 'none' | 'maxDistance' | 'std' | 'trim';
 
 export type Matrix2d = number[][];

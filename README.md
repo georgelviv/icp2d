@@ -97,7 +97,7 @@ const options = {
 const options = {
   filterOutliers: {
     strategy: 'std',
-    threshold: 2
+    stdThreshold: 2
   }
 };
 ```

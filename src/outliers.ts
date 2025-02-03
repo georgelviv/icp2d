@@ -6,9 +6,8 @@ export function getOutliersIndices(opts: FilterOutliersOptions, matchedDistance:
     return getOutliersMaxDistance(opts.maxDistance!, matchedDistance);
   };
   if (opts.strategy === 'std') {
-    return getOutliersSTD(opts.threshold!, matchedDistance);
+    return getOutliersSTD(opts.stdThreshold!, matchedDistance);
   }
-
   if (opts.strategy === 'trim') {
     return getOutliersTrim(opts.trimPercent!, matchedDistance);
   }
@@ -46,7 +45,6 @@ function getOutliersTrim(trimPercent: number, distances: number[]): number[] {
     return v > threshold;
   }, distances);
 }
-
 
 function getOutliers(predicate: (v: number) => boolean, distances: number[]): number[] {
   return distances.reduce((acc: number[], next: number, i: number) => {
