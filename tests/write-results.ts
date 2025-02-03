@@ -1,7 +1,5 @@
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'node:path';
 import fs from 'node:fs';
-import { camelCaseToKebabCase, readCsvPoints, saveCsvPoints } from './utils';
+import { camelCaseToKebabCase, getPath, readCsvPoints, saveCsvPoints } from './utils';
 import { icp, Options, OutliersFilteringStrategy, Point, Result } from '../src';
 
 init([1, 2, 3, 4, 5, 6, 7, 8], ['none', 'maxDistance', 'std', 'trim']);
@@ -43,12 +41,6 @@ async function writeResult(
 
   await saveCsvPoints(res.sourceTransformed, getPath(`${dir}/test${task}.csv`));
   await saveResults(res, options, getPath(`${dir}/results${task}.json`));
-}
-
-function getPath(relativePath: string): string {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  return join(__dirname, relativePath);
 }
 
 export async function saveResults(res: Result, options: Partial<Options>, filePath: string) {

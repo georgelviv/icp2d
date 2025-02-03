@@ -4,3 +4,5 @@ dist
 .vscode
 *.tgz
 .venv
+
+tests/data/*shifted.csv

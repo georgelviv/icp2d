@@ -4,5 +4,6 @@ export type {
   Vector, FilterOutliersOptions, OutliersFilteringStrategy,
   FilterNoiseOptions, NoiseFilteringStrategy
 } from './models';
+export { addTranslation } from './utils';
 export { nearestNeighbors } from './nearest-neighbors';
 export { qrDecomposition, calculateU, calculateVt, eigh } from './eigh';

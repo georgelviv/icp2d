@@ -1,4 +1,6 @@
 import fs from 'node:fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'node:path';
 import { Point } from '../src';
 
 export async function readCsvPoints(filePath: string) {
@@ -34,4 +36,10 @@ export function roundNumber(n: number): number {
 
 export function camelCaseToKebabCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+}
+
+export function getPath(relativePath: string): string {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  return join(__dirname, relativePath);
 }
